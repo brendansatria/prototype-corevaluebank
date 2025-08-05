@@ -148,12 +148,14 @@ const PhotosynthesisGame = () => {
   }, [cards, flippedIndices, score]);
 
   useEffect(() => {
+    if (isProcessing) return;
+
     const hasGrasshopper = flippedIndices.map(i => cards[i].type).includes('grasshopper');
     if (hasGrasshopper || flippedIndices.length === 3) {
       const timer = setTimeout(() => processTurn(), 1000);
       return () => clearTimeout(timer);
     }
-  }, [flippedIndices, cards, processTurn]);
+  }, [flippedIndices, cards, processTurn, isProcessing]);
 
   const getAdjacentIndices = (index: number) => {
     const row = Math.floor(index / 4);
