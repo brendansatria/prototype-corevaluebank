@@ -102,15 +102,15 @@ const PhotosynthesisGame = () => {
     let messageType = "default";
     let shouldRemove = false;
 
-    if (uniqueTypes.has('sun') && uniqueTypes.has('plant') && uniqueTypes.has('water')) {
+    if (uniqueTypes.has('sun') && uniqueTypes.has('co2') && uniqueTypes.has('water')) {
       turnScore = 5;
       messageText = "🌟 Perfect Photosynthesis! +5 points!";
       messageType = "win";
       shouldRemove = true;
     } else if (
-      (flippedTypes.filter(t => t === 'sun').length >= 1 && flippedTypes.filter(t => t === 'plant').length >= 1) ||
+      (flippedTypes.filter(t => t === 'sun').length >= 1 && flippedTypes.filter(t => t === 'co2').length >= 1) ||
       (flippedTypes.filter(t => t === 'sun').length >= 1 && flippedTypes.filter(t => t === 'water').length >= 1) ||
-      (flippedTypes.filter(t => t === 'plant').length >= 1 && flippedTypes.filter(t => t === 'water').length >= 1)
+      (flippedTypes.filter(t => t === 'co2').length >= 1 && flippedTypes.filter(t => t === 'water').length >= 1)
     ) {
       turnScore = 2;
       messageText = "✨ Great pair! +2 points!";
@@ -177,8 +177,8 @@ const PhotosynthesisGame = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-200 via-green-200 to-lime-200 flex flex-col items-center p-4 sm:p-8">
       <header className="text-center mb-8 text-green-800">
-        <h1 className="text-4xl md:text-5xl font-bold">🌱 Photosynthesis: Sunlit Fields</h1>
-        <p className="text-lg mt-2">Nurture your meadow by gathering sunlight, plants, and water!</p>
+        <h1 className="text-4xl md:text-5xl font-bold">💨 Photosynthesis: Sunlit Fields</h1>
+        <p className="text-lg mt-2">Create energy by combining sunlight, CO2, and water!</p>
       </header>
 
       <div className="mb-8">

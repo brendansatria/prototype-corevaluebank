@@ -19,7 +19,7 @@ export const EducationalPopup = ({ isOpen, onClose }: EducationalPopupProps) => 
       <AlertDialogContent className="bg-gradient-to-br from-white to-blue-50 border-green-700 border-2">
         <AlertDialogHeader>
           <AlertDialogTitle className="text-2xl text-green-800 text-center">
-            <span className="text-3xl block mb-2">🌱☀️💧</span>
+            <span className="text-3xl block mb-2">💨☀️💧</span>
             What is Photosynthesis?
           </AlertDialogTitle>
           <AlertDialogDescription className="text-base text-green-800 text-left pt-4">

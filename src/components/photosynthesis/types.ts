@@ -1,4 +1,4 @@
-export type CardType = 'sun' | 'plant' | 'water' | 'grasshopper';
+export type CardType = 'sun' | 'co2' | 'water' | 'grasshopper';
 
 export interface Card {
   type: CardType;
@@ -9,7 +9,7 @@ export interface Card {
 
 export const CARD_TYPES: Record<CardType, { emoji: string; name: string }> = {
   sun: { emoji: '☀️', name: 'Sun' },
-  plant: { emoji: '🌱', name: 'Plant' },
+  co2: { emoji: '💨', name: 'CO2' },
   water: { emoji: '💧', name: 'Water' },
   grasshopper: { emoji: '🦗', name: 'Grasshopper' },
 };

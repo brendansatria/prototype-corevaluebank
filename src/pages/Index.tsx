@@ -15,12 +15,12 @@ const Index = () => {
 
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>🌱 Photosynthesis: Sunlit Fields</CardTitle>
+          <CardTitle>💨 Photosynthesis: Sunlit Fields</CardTitle>
           <CardDescription>A memory game of ecological balance.</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col items-center gap-4">
           <p>
-            Match Sun, Water, and Plants to score points and grow your meadow. Watch out for grasshoppers!
+            Match Sun, Water, and CO2 to create energy. Watch out for grasshoppers!
           </p>
           <Link to="/photosynthesis-game">
             <Button size="lg">Play Game</Button>
