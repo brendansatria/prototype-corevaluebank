@@ -177,7 +177,7 @@ const PhotosynthesisGame = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-200 via-green-200 to-lime-200 flex flex-col items-center p-4 sm:p-8">
       <header className="text-center mb-8 text-green-800">
-        <h1 className="text-4xl md:text-5xl font-bold">💨 Photosynthesis: Sunlit Fields</h1>
+        <h1 className="text-4xl md:text-5xl font-bold">🌱 Photosynthesis: Sunlit Fields</h1>
         <p className="text-lg mt-2">Create energy by combining sunlight, CO2, and water!</p>
       </header>
 

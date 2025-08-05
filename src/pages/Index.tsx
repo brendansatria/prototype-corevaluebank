@@ -15,7 +15,7 @@ const Index = () => {
 
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>💨 Photosynthesis: Sunlit Fields</CardTitle>
+          <CardTitle>🌱 Photosynthesis: Sunlit Fields</CardTitle>
           <CardDescription>A memory game of ecological balance.</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col items-center gap-4">
