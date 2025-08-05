@@ -181,6 +181,10 @@ const PhotosynthesisGame = () => {
         <p className="text-lg mt-2">Nurture your meadow by gathering sunlight, plants, and water!</p>
       </header>
 
+      <div className="mb-8">
+        <Instructions />
+      </div>
+
       <GameStats score={score} flippedCount={flippedIndices.length} turnCount={turnCount} />
 
       <div className={messageClasses}>
@@ -194,8 +198,6 @@ const PhotosynthesisGame = () => {
           New Game
         </Button>
       </div>
-
-      <Instructions />
       
       <EducationalPopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
     </div>

@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const Instructions = () => {
   return (
-    <Card className="w-full max-w-2xl mx-auto mt-8 bg-white/90">
+    <Card className="w-full max-w-2xl mx-auto bg-white/90">
       <CardHeader>
         <CardTitle className="text-green-800">🎯 How to Play:</CardTitle>
       </CardHeader>
