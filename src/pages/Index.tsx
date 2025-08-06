@@ -14,7 +14,7 @@ const Index = () => {
       </div>
 
       <div className="flex flex-wrap justify-center gap-8">
-        <Card className="w-full max-w-md">
+        <Card className="w-full max-w-sm">
           <CardHeader>
             <CardTitle>🌱 Photosynthesis: Sunlit Fields</CardTitle>
             <CardDescription>A memory game of ecological balance.</CardDescription>
@@ -29,7 +29,7 @@ const Index = () => {
           </CardContent>
         </Card>
 
-        <Card className="w-full max-w-md">
+        <Card className="w-full max-w-sm">
           <CardHeader>
             <CardTitle>🏦 Bank Button Blitz</CardTitle>
             <CardDescription>A fast-paced reaction game.</CardDescription>
@@ -39,6 +39,21 @@ const Index = () => {
               Tap the correct buttons as they light up to serve customers. How high can you score in 30 seconds?
             </p>
             <Link to="/bank-button-blitz">
+              <Button size="lg">Play Game</Button>
+            </Link>
+          </CardContent>
+        </Card>
+
+        <Card className="w-full max-w-sm">
+          <CardHeader>
+            <CardTitle>🏛️ Bank Core Values</CardTitle>
+            <CardDescription>A team-based strategy game.</CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col items-center gap-4">
+            <p>
+              Reinforce core values through mini-games and dilemmas. Designed for 5 players.
+            </p>
+            <Link to="/bank-core-values">
               <Button size="lg">Play Game</Button>
             </Link>
           </CardContent>
