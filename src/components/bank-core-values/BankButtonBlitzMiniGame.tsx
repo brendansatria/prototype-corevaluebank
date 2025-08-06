@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Button } from '@/components/ui/button';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import '../../styles/BankButtonBlitz.css';
 
 const GAME_DURATION = 30;
 const BANKING_ICONS = ['💳', '💰', '🏧', '📊', '💵', '🔒', '📋', '💎'];
@@ -86,41 +86,63 @@ const BankButtonBlitzMiniGame = ({ onGameEnd }: BankButtonBlitzMiniGameProps) =>
     setTimeout(() => setFeedback(f => ({ ...f, [index]: undefined })), 300);
   };
 
-  const getButtonClass = (index: number) => {
-    let classes = 'game-button transition-all duration-150 text-4xl ';
-    if (feedback[index]) {
-      classes += feedback[index] === 'correct' ? 'bg-green-400 animate-bounce-sm' : 'bg-red-400 animate-shake';
-    } else if (activeButtons.includes(index)) {
-      classes += 'bg-yellow-300 animate-pulse';
-    } else {
-      classes += 'bg-slate-200';
+  const characterStates = useMemo(() => {
+    if (score >= 21) {
+        return {
+            frontlinerClass: 'happy', frontlinerEmoji: '😊',
+            customerClass: 'happy', customerEmoji: '😊',
+        };
     }
-    return classes;
-  };
+    if (score >= 11) {
+        return {
+            frontlinerClass: 'tired', frontlinerEmoji: '😐',
+            customerClass: 'neutral', customerEmoji: '😐',
+        };
+    }
+    return {
+        frontlinerClass: 'stressed', frontlinerEmoji: '😰',
+        customerClass: 'angry', customerEmoji: '😠',
+    };
+  }, [score]);
 
   return (
-    <div className="p-4 bg-slate-100 rounded-lg shadow-lg w-full max-w-md mx-auto">
-      <div className="flex justify-between items-center mb-4 p-4 bg-blue-600 text-white rounded-lg">
-        <h2 className="text-xl font-bold">Bank Button Blitz</h2>
-        <div className="text-lg font-mono">⏰ {timeLeft}s</div>
-        <div className="text-lg font-mono">💰 {score}</div>
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="flex flex-col gap-4">
-          {[0, 1, 2, 3].map(i => (
-            <Button key={i} className={getButtonClass(i)} style={{height: '80px'}} onClick={() => handleButtonClick(i)}>
-              {activeButtons.includes(i) ? BANKING_ICONS[i] : ''}
-            </Button>
-          ))}
+    <div className="bank-button-blitz-page" style={{ minHeight: 'auto', background: 'transparent' }}>
+        <div className="game-container" style={{ height: 'auto', maxHeight: '700px', width: '100%', maxWidth: '400px', margin: 'auto', position: 'relative', boxShadow: 'none', background: 'linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%)' }}>
+            <div className="header">
+                <h1 className="title">🏦 Bank Button Blitz</h1>
+                <div className="stats">
+                    <div className="timer">⏰ <span>{timeLeft}</span>s</div>
+                    <div className="score">💰 <span>{score}</span></div>
+                </div>
+            </div>
+
+            <div className="game-area">
+                <div className="button-column">
+                    {[0, 1, 2, 3].map(i => (
+                        <button key={i} className={`game-button ${feedback[i] || ''} ${activeButtons.includes(i) ? 'has-arrow' : ''}`} onClick={() => handleButtonClick(i)}>
+                            {activeButtons.includes(i) ? BANKING_ICONS[i] : ''}
+                        </button>
+                    ))}
+                </div>
+                <div className="center-area">
+                    <div className="bank-counter">
+                        <div className={`frontliner ${characterStates.frontlinerClass}`}>{characterStates.frontlinerEmoji}</div>
+                    </div>
+                    <div className="customers">
+                        <div className={`customer ${characterStates.customerClass}`}>{characterStates.customerEmoji}</div>
+                        <div className={`customer ${characterStates.customerClass}`}>{characterStates.customerEmoji}</div>
+                        <div className={`customer ${characterStates.customerClass}`}>{characterStates.customerEmoji}</div>
+                    </div>
+                </div>
+                <div className="button-column">
+                    {[4, 5, 6, 7].map(i => (
+                        <button key={i} className={`game-button ${feedback[i] || ''} ${activeButtons.includes(i) ? 'has-arrow' : ''}`} onClick={() => handleButtonClick(i)}>
+                            {activeButtons.includes(i) ? BANKING_ICONS[i] : ''}
+                        </button>
+                    ))}
+                </div>
+            </div>
         </div>
-        <div className="flex flex-col gap-4">
-          {[4, 5, 6, 7].map(i => (
-            <Button key={i} className={getButtonClass(i)} style={{height: '80px'}} onClick={() => handleButtonClick(i)}>
-              {activeButtons.includes(i) ? BANKING_ICONS[i] : ''}
-            </Button>
-          ))}
-        </div>
-      </div>
     </div>
   );
 };
