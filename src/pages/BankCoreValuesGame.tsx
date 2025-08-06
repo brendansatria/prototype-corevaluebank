@@ -4,6 +4,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { GAME_ROUNDS, TARGET_SCORE, MetricImpacts, DilemmaOption } from '@/data/bankCoreValuesData';
 import BankButtonBlitzMiniGame from '@/components/bank-core-values/BankButtonBlitzMiniGame';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 type GamePhase = 'start' | 'mini-game' | 'event' | 'update' | 'end';
 type Difficulty = 'easy' | 'medium' | 'hard';
@@ -56,6 +62,22 @@ const BankCoreValuesGame = () => {
           <Card className="text-center p-8">
             <h1 className="text-4xl font-bold mb-4">Bank Core Values Challenge</h1>
             <p className="mb-8 text-lg text-muted-foreground">A team-based game to reinforce our core values. Best played by a group of 5.</p>
+            
+            <Accordion type="single" collapsible className="w-full max-w-lg mx-auto text-left mb-8">
+              <AccordionItem value="item-1">
+                <AccordionTrigger className="text-lg font-semibold justify-center">How to Play</AccordionTrigger>
+                <AccordionContent>
+                  <ul className="list-disc pl-5 space-y-2 text-muted-foreground text-base">
+                    <li>The game has 5 rounds, each focused on a core value.</li>
+                    <li><strong>Phase 1: Mini-Game.</strong> Work together in a fast-paced game. Your score sets the difficulty for the next phase.</li>
+                    <li><strong>Phase 2: Dilemma.</strong> Discuss a scenario as a team and make a choice.</li>
+                    <li><strong>Phase 3: Update.</strong> See how your choice impacts your team's metrics: Revenue, Risk, and Customer Satisfaction.</li>
+                    <li><strong>Goal:</strong> Finish all 5 rounds with each metric at or above the target score of 20!</li>
+                  </ul>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+
             <Button size="lg" onClick={startGame}>Start Game</Button>
           </Card>
         );
