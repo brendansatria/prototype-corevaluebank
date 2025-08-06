@@ -142,4 +142,4 @@ export const GAME_ROUNDS: GameRound[] = [
   }
 ];
 
-export const TARGET_SCORE = 50;
+export const TARGET_SCORE = 20;
