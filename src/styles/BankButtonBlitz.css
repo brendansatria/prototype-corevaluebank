@@ -52,8 +52,8 @@
     width: 25%;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    padding: 20px 10px;
+    justify-content: space-between;
+    padding: 40px 10px;
 }
 
 .bank-button-blitz-page .game-button {
@@ -235,7 +235,7 @@
     z-index: 1000;
 }
 
-.bank-button-blitz-page .start-button, .bank-button-blitz-page .restart-button {
+.bank-button-blitz-page .start-button, .bank-button-bliz-page .restart-button {
     background: linear-gradient(145deg, #10b981, #059669);
     color: white;
     border: none;
