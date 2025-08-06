@@ -13,7 +13,6 @@ const BankButtonBlitz = () => {
 
     const gameTimerRef = useRef<NodeJS.Timeout | null>(null);
     const arrowTimerRef = useRef<NodeJS.Timeout | null>(null);
-    const timeLeftRef = useRef(GAME_DURATION);
 
     const clearTimers = useCallback(() => {
         if (gameTimerRef.current) clearInterval(gameTimerRef.current);
@@ -23,29 +22,31 @@ const BankButtonBlitz = () => {
     const spawnArrows = useCallback(() => {
         let spawnDelay = 1500;
         let maxArrows = 1;
-        const currentT = timeLeftRef.current;
 
-        if (currentT <= 20 && currentT > 10) {
-            spawnDelay = 1200;
-            maxArrows = Math.random() < 0.3 ? 2 : 1;
-        } else if (currentT <= 10 && currentT > 0) {
-            spawnDelay = 900;
-            if (Math.random() < 0.1) maxArrows = 3;
-            else if (Math.random() < 0.5) maxArrows = 2;
-        }
-
-        setActiveButtons(prevActive => {
-            const newActive = new Set<number>();
-            const available = Array.from({ length: 8 }, (_, i) => i);
-            for (let i = 0; i < maxArrows && available.length > 0; i++) {
-                const randIndex = Math.floor(Math.random() * available.length);
-                const buttonIndex = available.splice(randIndex, 1)[0];
-                newActive.add(buttonIndex);
+        setTimeLeft(prevTime => {
+            if (prevTime <= 20 && prevTime > 10) {
+                spawnDelay = 1200;
+                maxArrows = Math.random() < 0.3 ? 2 : 1;
+            } else if (prevTime <= 10 && prevTime > 0) {
+                spawnDelay = 900;
+                if (Math.random() < 0.1) maxArrows = 3;
+                else if (Math.random() < 0.5) maxArrows = 2;
             }
-            return newActive;
+
+            setActiveButtons(prevActive => {
+                const newActive = new Set<number>();
+                const available = Array.from({ length: 8 }, (_, i) => i);
+                for (let i = 0; i < maxArrows && available.length > 0; i++) {
+                    const randIndex = Math.floor(Math.random() * available.length);
+                    const buttonIndex = available.splice(randIndex, 1)[0];
+                    newActive.add(buttonIndex);
+                }
+                return newActive;
+            });
+            
+            arrowTimerRef.current = setTimeout(spawnArrows, spawnDelay);
+            return prevTime;
         });
-        
-        arrowTimerRef.current = setTimeout(spawnArrows, spawnDelay);
     }, []);
 
     const endGame = useCallback(() => {
@@ -57,19 +58,16 @@ const BankButtonBlitz = () => {
     const startGame = useCallback(() => {
         setScore(0);
         setTimeLeft(GAME_DURATION);
-        timeLeftRef.current = GAME_DURATION;
         setGameState('playing');
         spawnArrows();
 
         gameTimerRef.current = setInterval(() => {
             setTimeLeft(prev => {
-                const newTime = prev - 1;
-                timeLeftRef.current = newTime;
-                if (newTime <= 0) {
+                if (prev <= 1) {
                     endGame();
                     return 0;
                 }
-                return newTime;
+                return prev - 1;
             });
         }, 1000);
     }, [spawnArrows, endGame]);
@@ -102,11 +100,33 @@ const BankButtonBlitz = () => {
         return () => clearTimers();
     }, [clearTimers]);
 
-    const finalMessage = useMemo(() => {
-        if (gameState !== 'ended') return '';
-        if (score >= 21) return '🎉 Excellent Service!';
-        if (score >= 11) return '😴 Not Bad, But Tired';
-        return '😰 Overwhelmed!';
+    const characterStates = useMemo(() => {
+        if (gameState !== 'playing' && gameState !== 'ended') {
+            return {
+                frontlinerClass: '', frontlinerEmoji: '😊',
+                customerClass: 'neutral', customerEmoji: '😐',
+                finalMessage: ''
+            };
+        }
+        if (score >= 21) {
+            return {
+                frontlinerClass: 'happy', frontlinerEmoji: '😊',
+                customerClass: 'happy', customerEmoji: '😊',
+                finalMessage: '🎉 Excellent Service!'
+            };
+        }
+        if (score >= 11) {
+            return {
+                frontlinerClass: 'tired', frontlinerEmoji: '😴',
+                customerClass: 'angry', customerEmoji: '😠',
+                finalMessage: '😴 Not Bad, But Tired'
+            };
+        }
+        return {
+            frontlinerClass: 'stressed', frontlinerEmoji: '😰',
+            customerClass: 'angry', customerEmoji: '😡',
+            finalMessage: '😰 Overwhelmed!'
+        };
     }, [score, gameState]);
 
     return (
@@ -123,7 +143,7 @@ const BankButtonBlitz = () => {
                 )}
                 {gameState === 'ended' && (
                     <div className="end-screen">
-                        <div className="final-message">{finalMessage}</div>
+                        <div className="final-message">{characterStates.finalMessage}</div>
                         <div>Final Score: {score} points</div>
                         <button className="restart-button" onClick={restartGame}>Play Again</button>
                     </div>
@@ -146,7 +166,14 @@ const BankButtonBlitz = () => {
                         ))}
                     </div>
                     <div className="center-area">
-                       <img src="/bank-meeting.png" alt="Bank meeting" className="w-full h-auto object-contain" />
+                        <div className="bank-counter">
+                            <div className={`frontliner ${characterStates.frontlinerClass}`}>{characterStates.frontlinerEmoji}</div>
+                        </div>
+                        <div className="customers">
+                            <div className={`customer ${characterStates.customerClass}`}>{characterStates.customerEmoji}</div>
+                            <div className={`customer ${characterStates.customerClass}`}>{characterStates.customerEmoji}</div>
+                            <div className={`customer ${characterStates.customerClass}`}>{characterStates.customerEmoji}</div>
+                        </div>
                     </div>
                     <div className="button-column">
                         {[4, 5, 6, 7].map(i => (
