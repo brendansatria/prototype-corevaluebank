@@ -11,7 +11,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-type GamePhase = 'start' | 'mini-game' | 'event' | 'update' | 'end';
+type GamePhase = 'start' | 'mini-game-intro' | 'mini-game' | 'event' | 'update' | 'end';
 type Difficulty = 'easy' | 'medium' | 'hard';
 
 const BankCoreValuesGame = () => {
@@ -24,7 +24,7 @@ const BankCoreValuesGame = () => {
   const startGame = () => {
     setCurrentRound(0);
     setMetrics({ revenue: 0, risk: 0, customerSatisfaction: 0 });
-    setPhase('mini-game');
+    setPhase('mini-game-intro');
   };
 
   const handleMiniGameEnd = (score: number) => {
@@ -47,7 +47,7 @@ const BankCoreValuesGame = () => {
   const nextRound = () => {
     if (currentRound < GAME_ROUNDS.length - 1) {
       setCurrentRound(r => r + 1);
-      setPhase('mini-game');
+      setPhase('mini-game-intro');
     } else {
       setPhase('end');
     }
@@ -81,13 +81,21 @@ const BankCoreValuesGame = () => {
             <Button size="lg" onClick={startGame}>Start Game</Button>
           </Card>
         );
+      case 'mini-game-intro':
+        return (
+          <Card className="text-center p-8">
+            <CardHeader>
+              <CardTitle className="text-3xl">Round {roundData.round}: {roundData.coreValue}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-lg text-muted-foreground mb-8">Get ready for the mini-game! Work together to get the highest score.</p>
+              <Button size="lg" onClick={() => setPhase('mini-game')}>Ready!</Button>
+            </CardContent>
+          </Card>
+        );
       case 'mini-game':
         return (
-          <div>
-            <h2 className="text-3xl font-bold text-center mb-2">Round {roundData.round}: {roundData.coreValue}</h2>
-            <p className="text-center text-muted-foreground mb-4">Phase 1: Bank Button Blitz! Work together!</p>
-            <BankButtonBlitzMiniGame onGameEnd={handleMiniGameEnd} />
-          </div>
+          <BankButtonBlitzMiniGame onGameEnd={handleMiniGameEnd} />
         );
       case 'event':
         const dilemma = roundData.dilemma;
@@ -155,7 +163,7 @@ const BankCoreValuesGame = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col items-center justify-center p-4">
-      {phase !== 'start' && phase !== 'end' && (
+      {(phase === 'event' || phase === 'update') && (
         <header className="w-full max-w-4xl mb-8 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
           <div className="flex justify-around items-center text-center gap-4">
             <div className="flex-1"><p className="font-bold">Revenue</p><p className="text-2xl">{metrics.revenue}</p></div>
@@ -164,7 +172,7 @@ const BankCoreValuesGame = () => {
           </div>
         </header>
       )}
-      <main className="w-full max-w-4xl">
+      <main className="w-full max-w-4xl flex-grow flex items-center justify-center">
         {renderPhase()}
       </main>
     </div>
