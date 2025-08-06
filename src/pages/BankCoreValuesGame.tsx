@@ -162,7 +162,7 @@ const BankCoreValuesGame = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col items-center justify-center p-4">
+    <div className={`min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col items-center justify-center ${phase === 'mini-game' ? 'p-0 sm:p-4' : 'p-4'}`}>
       {(phase === 'event' || phase === 'update') && (
         <header className="w-full max-w-4xl mb-8 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
           <div className="flex justify-around items-center text-center gap-4">

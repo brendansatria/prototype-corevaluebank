@@ -107,7 +107,7 @@ const BankButtonBlitzMiniGame = ({ onGameEnd }: BankButtonBlitzMiniGameProps) =>
 
   return (
     <div className="bank-button-blitz-page" style={{ minHeight: 'auto', background: 'transparent' }}>
-        <div className="game-container" style={{ height: '700px', maxHeight: '700px', width: '100%', maxWidth: '400px', margin: 'auto', position: 'relative', boxShadow: 'none', background: 'linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%)' }}>
+        <div className="game-container" style={{ height: '700px', maxHeight: '700px', width: '100%', maxWidth: '480px', margin: 'auto', position: 'relative', boxShadow: 'none', background: 'linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%)' }}>
             <div className="header">
                 <h1 className="title">🏦 Bank Button Blitz</h1>
                 <div className="stats">
