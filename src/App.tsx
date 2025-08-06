@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import PhotosynthesisGame from "./pages/PhotosynthesisGame";
+import BankButtonBlitz from "./pages/BankButtonBlitz";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/photosynthesis-game" element={<PhotosynthesisGame />} />
+          <Route path="/bank-button-blitz" element={<BankButtonBlitz />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
