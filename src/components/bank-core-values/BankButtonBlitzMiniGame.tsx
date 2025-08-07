@@ -88,28 +88,19 @@ const BankButtonBlitzMiniGame = ({ onGameEnd }: BankButtonBlitzMiniGameProps) =>
 
   const characterStates = useMemo(() => {
     if (score >= 21) {
-        return {
-            frontlinerClass: 'happy', frontlinerEmoji: '😊',
-            customerClass: 'happy', customerEmoji: '😊',
-        };
+        return { emoji1: '😊', emoji2: '😊', animation: 'bbb-customer-cheer' };
     }
     if (score >= 11) {
-        return {
-            frontlinerClass: 'tired', frontlinerEmoji: '😐',
-            customerClass: 'neutral', customerEmoji: '😐',
-        };
+        return { emoji1: '😐', emoji2: '😐', animation: '' };
     }
-    return {
-        frontlinerClass: 'stressed', frontlinerEmoji: '😰',
-        customerClass: 'angry', customerEmoji: '😠',
-    };
+    return { emoji1: '😡', emoji2: '😰', animation: 'bbb-customer-angry' };
   }, [score]);
 
   return (
     <div className="bank-button-blitz-page" style={{ minHeight: 'auto', background: 'transparent' }}>
         <div className="game-container" style={{ height: '600px', maxHeight: '600px', width: '350px', margin: 'auto', position: 'relative', boxShadow: 'none', background: 'linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%)' }}>
             <div className="header">
-                <h1 className="title">🏦 Bank Button Blitz</h1>
+                <h1 className="title">HURRY! TAP WHAT CUSTOMER ASK!</h1>
                 <div className="stats">
                     <div className="timer">⏰ <span>{timeLeft}</span>s</div>
                     <div className="score">💰 <span>{score}</span></div>
@@ -125,13 +116,10 @@ const BankButtonBlitzMiniGame = ({ onGameEnd }: BankButtonBlitzMiniGameProps) =>
                     ))}
                 </div>
                 <div className="center-area">
-                    <div className="bank-counter">
-                        <div className={`frontliner ${characterStates.frontlinerClass}`}>{characterStates.frontlinerEmoji}</div>
-                    </div>
-                    <div className="customers">
-                        <div className={`customer ${characterStates.customerClass}`}>{characterStates.customerEmoji}</div>
-                        <div className={`customer ${characterStates.customerClass}`}>{characterStates.customerEmoji}</div>
-                        <div className={`customer ${characterStates.customerClass}`}>{characterStates.customerEmoji}</div>
+                    <div className="sprite-container">
+                        <img src="/frontliner.png" alt="Bank counter scene" className="sprite-image" />
+                        <div className={`speech-bubble bubble-1 ${characterStates.animation}`}>{characterStates.emoji1}</div>
+                        <div className={`speech-bubble bubble-2 ${characterStates.animation}`}>{characterStates.emoji2}</div>
                     </div>
                 </div>
                 <div className="button-column">
