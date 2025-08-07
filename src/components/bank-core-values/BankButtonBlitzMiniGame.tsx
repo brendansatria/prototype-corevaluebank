@@ -12,7 +12,7 @@ interface BankButtonBlitzMiniGameProps {
 const BankButtonBlitzMiniGame = ({ onGameEnd }: BankButtonBlitzMiniGameProps) => {
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
-  const [activeButtons, setActiveButtons] = useState<number[]>([]);
+  const [activeButtons, setActiveButtons] = useState<Set<number>>(new Set());
   const [feedback, setFeedback] = useState<Record<number, 'correct' | 'wrong'>>({});
 
   const gameTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -39,12 +39,12 @@ const BankButtonBlitzMiniGame = ({ onGameEnd }: BankButtonBlitzMiniGameProps) =>
             else if (Math.random() < 0.5) numIcons = 2;
         }
 
+        const newActive = new Set<number>();
         const available = Array.from({ length: 8 }, (_, i) => i);
-        const newActive: number[] = [];
         for (let i = 0; i < numIcons && available.length > 0; i++) {
             const randIndex = Math.floor(Math.random() * available.length);
             const buttonIndex = available.splice(randIndex, 1)[0];
-            newActive.push(buttonIndex);
+            newActive.add(buttonIndex);
         }
         
         setActiveButtons(newActive);
@@ -76,10 +76,14 @@ const BankButtonBlitzMiniGame = ({ onGameEnd }: BankButtonBlitzMiniGameProps) =>
   const handleButtonClick = (index: number) => {
     if (timeLeft <= 0) return;
 
-    if (activeButtons.includes(index)) {
+    if (activeButtons.has(index)) {
       setScore(s => s + 1);
       setFeedback(f => ({ ...f, [index]: 'correct' }));
-      setActiveButtons(btns => btns.filter(b => b !== index));
+      setActiveButtons(prev => {
+        const newActive = new Set(prev);
+        newActive.delete(index);
+        return newActive;
+      });
     } else {
       setScore(s => s - 1);
       setFeedback(f => ({ ...f, [index]: 'wrong' }));
@@ -111,8 +115,8 @@ const BankButtonBlitzMiniGame = ({ onGameEnd }: BankButtonBlitzMiniGameProps) =>
             <div className="game-area">
                 <div className="button-column">
                     {[0, 1, 2, 3].map(i => (
-                        <button key={i} className={`game-button ${feedback[i] || ''} ${activeButtons.includes(i) ? 'has-arrow' : ''}`} onClick={() => handleButtonClick(i)}>
-                            {activeButtons.includes(i) ? BANKING_ICONS[i] : ''}
+                        <button key={i} className={`game-button ${feedback[i] || ''} ${activeButtons.has(i) ? 'has-arrow' : ''}`} onClick={() => handleButtonClick(i)}>
+                            {activeButtons.has(i) ? BANKING_ICONS[i] : ''}
                         </button>
                     ))}
                 </div>
@@ -126,7 +130,7 @@ const BankButtonBlitzMiniGame = ({ onGameEnd }: BankButtonBlitzMiniGameProps) =>
                 <div className="button-column">
                     {[4, 5, 6, 7].map(i => (
                         <button key={i} className={`game-button ${feedback[i] || ''} ${activeButtons.has(i) ? 'has-arrow' : ''}`} onClick={() => handleButtonClick(i)}>
-                            {activeButtons.includes(i) ? BANKING_ICONS[i] : ''}
+                            {activeButtons.has(i) ? BANKING_ICONS[i] : ''}
                         </button>
                     ))}
                 </div>
