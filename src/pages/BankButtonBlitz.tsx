@@ -44,7 +44,9 @@ const BankButtonBlitz = () => {
                 return newActive;
             });
             
-            arrowTimerRef.current = setTimeout(spawnArrows, spawnDelay);
+            if (prevTime > 1) {
+                arrowTimerRef.current = setTimeout(spawnArrows, spawnDelay);
+            }
             return prevTime;
         });
     }, []);
@@ -101,32 +103,20 @@ const BankButtonBlitz = () => {
     }, [clearTimers]);
 
     const characterStates = useMemo(() => {
-        if (gameState !== 'playing' && gameState !== 'ended') {
-            return {
-                frontlinerClass: '', frontlinerEmoji: '😊',
-                customerClass: 'neutral', customerEmoji: '😐',
-                finalMessage: ''
-            };
+        let finalMessage = '';
+        if (gameState === 'ended') {
+            if (score >= 21) finalMessage = '🎉 Excellent Service!';
+            else if (score >= 11) finalMessage = '😴 Not Bad, But Tired';
+            else finalMessage = '😰 Overwhelmed!';
         }
+
         if (score >= 21) {
-            return {
-                frontlinerClass: 'happy', frontlinerEmoji: '😊',
-                customerClass: 'happy', customerEmoji: '😊',
-                finalMessage: '🎉 Excellent Service!'
-            };
+            return { animation: 'bbb-customer-cheer', emoji1: '😊', emoji2: '😊', finalMessage };
         }
         if (score >= 11) {
-            return {
-                frontlinerClass: 'tired', frontlinerEmoji: '😴',
-                customerClass: 'angry', customerEmoji: '😠',
-                finalMessage: '😴 Not Bad, But Tired'
-            };
+            return { animation: '', emoji1: '😐', emoji2: '😐', finalMessage };
         }
-        return {
-            frontlinerClass: 'stressed', frontlinerEmoji: '😰',
-            customerClass: 'angry', customerEmoji: '😡',
-            finalMessage: '😰 Overwhelmed!'
-        };
+        return { animation: 'bbb-customer-angry', emoji1: '😡', emoji2: '😰', finalMessage };
     }, [score, gameState]);
 
     return (
@@ -150,7 +140,7 @@ const BankButtonBlitz = () => {
                 )}
 
                 <div className="header">
-                    <h1 className="title">🏦 Bank Button Blitz</h1>
+                    <h1 className="title">HURRY! TAP WHAT CUSTOMER ASK!</h1>
                     <div className="stats">
                         <div className="timer">⏰ <span>{timeLeft}</span>s</div>
                         <div className="score">💰 <span>{score}</span></div>
@@ -166,13 +156,10 @@ const BankButtonBlitz = () => {
                         ))}
                     </div>
                     <div className="center-area">
-                        <div className="bank-counter">
-                            <div className={`frontliner ${characterStates.frontlinerClass}`}>{characterStates.frontlinerEmoji}</div>
-                        </div>
-                        <div className="customers">
-                            <div className={`customer ${characterStates.customerClass}`}>{characterStates.customerEmoji}</div>
-                            <div className={`customer ${characterStates.customerClass}`}>{characterStates.customerEmoji}</div>
-                            <div className={`customer ${characterStates.customerClass}`}>{characterStates.customerEmoji}</div>
+                        <div className="sprite-container">
+                            <img src="/frontliner.png" alt="Bank counter scene" className="sprite-image" />
+                            <div className={`speech-bubble bubble-1 ${characterStates.animation}`}>{characterStates.emoji1}</div>
+                            <div className={`speech-bubble bubble-2 ${characterStates.animation}`}>{characterStates.emoji2}</div>
                         </div>
                     </div>
                     <div className="button-column">
