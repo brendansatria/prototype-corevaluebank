@@ -46,7 +46,7 @@
     flex-grow: 1;
     display: flex;
     position: relative;
-    padding: 0 10px;
+    padding: 0;
 }
 
 .bank-button-blitz-page .button-column {
@@ -54,12 +54,13 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 40px 5px;
+    padding: 40px 0;
     box-sizing: border-box;
+    align-items: center;
 }
 
 .bank-button-blitz-page .game-button {
-    width: 100%;
+    width: 80%;
     aspect-ratio: 1 / 1;
     height: auto;
     border: none;
