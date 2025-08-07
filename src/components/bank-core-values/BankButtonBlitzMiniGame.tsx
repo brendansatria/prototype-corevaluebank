@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import '../../styles/BankButtonBlitz.css';
-import frontlinerSprite from '@/assets/frontliner.png';
 
 const GAME_DURATION = 30;
 const BANKING_ICONS = ['💳', '💰', '🏧', '📊', '💵', '🔒', '📋', '💎'];
@@ -12,7 +11,7 @@ interface BankButtonBlitzMiniGameProps {
 const BankButtonBlitzMiniGame = ({ onGameEnd }: BankButtonBlitzMiniGameProps) => {
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
-  const [activeButtons, setActiveButtons] = useState<Set<number>>(new Set());
+  const [activeButtons, setActiveButtons] = useState<number[]>([]);
   const [feedback, setFeedback] = useState<Record<number, 'correct' | 'wrong'>>({});
 
   const gameTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -39,12 +38,12 @@ const BankButtonBlitzMiniGame = ({ onGameEnd }: BankButtonBlitzMiniGameProps) =>
             else if (Math.random() < 0.5) numIcons = 2;
         }
 
-        const newActive = new Set<number>();
         const available = Array.from({ length: 8 }, (_, i) => i);
+        const newActive: number[] = [];
         for (let i = 0; i < numIcons && available.length > 0; i++) {
             const randIndex = Math.floor(Math.random() * available.length);
             const buttonIndex = available.splice(randIndex, 1)[0];
-            newActive.add(buttonIndex);
+            newActive.push(buttonIndex);
         }
         
         setActiveButtons(newActive);
@@ -76,14 +75,10 @@ const BankButtonBlitzMiniGame = ({ onGameEnd }: BankButtonBlitzMiniGameProps) =>
   const handleButtonClick = (index: number) => {
     if (timeLeft <= 0) return;
 
-    if (activeButtons.has(index)) {
+    if (activeButtons.includes(index)) {
       setScore(s => s + 1);
       setFeedback(f => ({ ...f, [index]: 'correct' }));
-      setActiveButtons(prev => {
-        const newActive = new Set(prev);
-        newActive.delete(index);
-        return newActive;
-      });
+      setActiveButtons(btns => btns.filter(b => b !== index));
     } else {
       setScore(s => s - 1);
       setFeedback(f => ({ ...f, [index]: 'wrong' }));
@@ -115,22 +110,22 @@ const BankButtonBlitzMiniGame = ({ onGameEnd }: BankButtonBlitzMiniGameProps) =>
             <div className="game-area">
                 <div className="button-column">
                     {[0, 1, 2, 3].map(i => (
-                        <button key={i} className={`game-button ${feedback[i] || ''} ${activeButtons.has(i) ? 'has-arrow' : ''}`} onClick={() => handleButtonClick(i)}>
-                            {activeButtons.has(i) ? BANKING_ICONS[i] : ''}
+                        <button key={i} className={`game-button ${feedback[i] || ''} ${activeButtons.includes(i) ? 'has-arrow' : ''}`} onClick={() => handleButtonClick(i)}>
+                            {activeButtons.includes(i) ? BANKING_ICONS[i] : ''}
                         </button>
                     ))}
                 </div>
                 <div className="center-area">
                     <div className="sprite-container">
-                        <img src={frontlinerSprite} alt="Bank counter scene" className="sprite-image" />
+                        <img src="/frontliner.png" alt="Bank counter scene" className="sprite-image" />
                         <div className={`speech-bubble bubble-1 ${characterStates.animation}`}>{characterStates.emoji1}</div>
                         <div className={`speech-bubble bubble-2 ${characterStates.animation}`}>{characterStates.emoji2}</div>
                     </div>
                 </div>
                 <div className="button-column">
                     {[4, 5, 6, 7].map(i => (
-                        <button key={i} className={`game-button ${feedback[i] || ''} ${activeButtons.has(i) ? 'has-arrow' : ''}`} onClick={() => handleButtonClick(i)}>
-                            {activeButtons.has(i) ? BANKING_ICONS[i] : ''}
+                        <button key={i} className={`game-button ${feedback[i] || ''} ${activeButtons.includes(i) ? 'has-arrow' : ''}`} onClick={() => handleButtonClick(i)}>
+                            {activeButtons.includes(i) ? BANKING_ICONS[i] : ''}
                         </button>
                     ))}
                 </div>

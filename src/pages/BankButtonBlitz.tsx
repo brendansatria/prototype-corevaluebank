@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import '../styles/BankButtonBlitz.css';
-import frontlinerSprite from '@/assets/frontliner.png';
 
 const GAME_DURATION = 30;
 const BANKING_ICONS = ['💳', '💰', '🏧', '📊', '💵', '🔒', '📋', '💎'];
@@ -102,29 +101,32 @@ const BankButtonBlitz = () => {
     }, [clearTimers]);
 
     const characterStates = useMemo(() => {
-        let finalMessage = '';
-        if (score >= 21) finalMessage = '🎉 Excellent Service!';
-        else if (score >= 11) finalMessage = '😴 Not Bad, But Tired';
-        else finalMessage = '😰 Overwhelmed!';
-
-        let emoji1 = '😐', emoji2 = '😊', animation = '';
-        if (gameState === 'playing') {
-            if (score >= 21) {
-                emoji1 = '😊';
-                emoji2 = '😊';
-                animation = 'bbb-customer-cheer';
-            } else if (score >= 11) {
-                emoji1 = '😐';
-                emoji2 = '😐';
-                animation = '';
-            } else {
-                emoji1 = '😡';
-                emoji2 = '😰';
-                animation = 'bbb-customer-angry';
-            }
+        if (gameState !== 'playing' && gameState !== 'ended') {
+            return {
+                frontlinerClass: '', frontlinerEmoji: '😊',
+                customerClass: 'neutral', customerEmoji: '😐',
+                finalMessage: ''
+            };
         }
-        
-        return { finalMessage, emoji1, emoji2, animation };
+        if (score >= 21) {
+            return {
+                frontlinerClass: 'happy', frontlinerEmoji: '😊',
+                customerClass: 'happy', customerEmoji: '😊',
+                finalMessage: '🎉 Excellent Service!'
+            };
+        }
+        if (score >= 11) {
+            return {
+                frontlinerClass: 'tired', frontlinerEmoji: '😴',
+                customerClass: 'angry', customerEmoji: '😠',
+                finalMessage: '😴 Not Bad, But Tired'
+            };
+        }
+        return {
+            frontlinerClass: 'stressed', frontlinerEmoji: '😰',
+            customerClass: 'angry', customerEmoji: '😡',
+            finalMessage: '😰 Overwhelmed!'
+        };
     }, [score, gameState]);
 
     return (
@@ -148,7 +150,7 @@ const BankButtonBlitz = () => {
                 )}
 
                 <div className="header">
-                    <h1 className="title">HURRY! TAP WHAT CUSTOMER ASK!</h1>
+                    <h1 className="title">🏦 Bank Button Blitz</h1>
                     <div className="stats">
                         <div className="timer">⏰ <span>{timeLeft}</span>s</div>
                         <div className="score">💰 <span>{score}</span></div>
@@ -164,10 +166,13 @@ const BankButtonBlitz = () => {
                         ))}
                     </div>
                     <div className="center-area">
-                        <div className="sprite-container">
-                            <img src={frontlinerSprite} alt="Bank counter scene" className="sprite-image" />
-                            <div className={`speech-bubble bubble-1 ${characterStates.animation}`}>{characterStates.emoji1}</div>
-                            <div className={`speech-bubble bubble-2 ${characterStates.animation}`}>{characterStates.emoji2}</div>
+                        <div className="bank-counter">
+                            <div className={`frontliner ${characterStates.frontlinerClass}`}>{characterStates.frontlinerEmoji}</div>
+                        </div>
+                        <div className="customers">
+                            <div className={`customer ${characterStates.customerClass}`}>{characterStates.customerEmoji}</div>
+                            <div className={`customer ${characterStates.customerClass}`}>{characterStates.customerEmoji}</div>
+                            <div className={`customer ${characterStates.customerClass}`}>{characterStates.customerEmoji}</div>
                         </div>
                     </div>
                     <div className="button-column">
