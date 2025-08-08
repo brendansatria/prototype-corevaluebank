@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import '../../styles/BankButtonBlitz.css';
+import frontlinerImg from '../../../assets/frontliner2.png';
 
 const GAME_DURATION = 30;
 const BANKING_ICONS = ['💳', '💰', '🏧', '📊', '💵', '🔒', '📋', '💎'];
@@ -117,7 +118,7 @@ const BankButtonBlitzMiniGame = ({ onGameEnd }: BankButtonBlitzMiniGameProps) =>
                 </div>
                 <div className="center-area">
                     <div className="sprite-container">
-                        <img src="/frontliner2.png" alt="Bank counter scene" className="sprite-image" />
+                        <img src={frontlinerImg} alt="Bank counter scene" className="sprite-image" />
                         <div className={`speech-bubble bubble-1 ${characterStates.animation}`}>{characterStates.emoji1}</div>
                         <div className={`speech-bubble bubble-2 ${characterStates.animation}`}>{characterStates.emoji2}</div>
                     </div>
