@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import '../../styles/BankButtonBlitz.css';
-import frontlinerImg from '../../../assets/frontliner2.png';
+import frontlinerImg from '@/assets/frontliner2.png';
 
 const GAME_DURATION = 30;
 const BANKING_ICONS = ['💳', '💰', '🏧', '📊', '💵', '🔒', '📋', '💎'];
