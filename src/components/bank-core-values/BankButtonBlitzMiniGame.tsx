@@ -122,7 +122,7 @@ const BankButtonBlitzMiniGame = ({ onGameEnd }: BankButtonBlitzMiniGameProps) =>
                 </div>
                 <div className="center-area">
                     <div className="sprite-container">
-                        <div className="sprite-image" style={{ backgroundImage: `url(${frontlinerImg})` }} />
+                        <img src={frontlinerImg} alt="Bank Frontliner" className="sprite-image" />
                         <div className={`speech-bubble bubble-1 ${characterStates.animation}`}>{characterStates.emoji1}</div>
                         <div className={`speech-bubble bubble-2 ${characterStates.animation}`}>{characterStates.emoji2}</div>
                     </div>
